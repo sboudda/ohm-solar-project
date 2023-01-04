@@ -20,7 +20,7 @@
 	/**
 	 * Creates a carousel.
 	 * @class The Owl Carousel.
-	 * @public
+	 * @public_html
 	 * @param {HTMLElement|jQuery} element - The element to create the carousel for.
 	 * @param {Object} [options] - The options
 	 */
@@ -28,19 +28,19 @@
 
 		/**
 		 * Current settings for the carousel.
-		 * @public
+		 * @public_html
 		 */
 		this.settings = null;
 
 		/**
 		 * Current options set by the caller including defaults.
-		 * @public
+		 * @public_html
 		 */
 		this.options = $.extend({}, Owl.Defaults, options);
 
 		/**
 		 * Plugin element.
-		 * @public
+		 * @public_html
 		 */
 		this.$element = $(element);
 
@@ -181,7 +181,7 @@
 
 	/**
 	 * Default options for the carousel.
-	 * @public
+	 * @public_html
 	 */
 	Owl.Defaults = {
 		items: 3,
@@ -234,7 +234,7 @@
 
 	/**
 	 * Enumeration for width.
-	 * @public
+	 * @public_html
 	 * @readonly
 	 * @enum {String}
 	 */
@@ -246,7 +246,7 @@
 
 	/**
 	 * Enumeration for types.
-	 * @public
+	 * @public_html
 	 * @readonly
 	 * @enum {String}
 	 */
@@ -257,7 +257,7 @@
 
 	/**
 	 * Contains all registered plugins.
-	 * @public
+	 * @public_html
 	 */
 	Owl.Plugins = {};
 
@@ -499,7 +499,7 @@
 	 * Setups the current settings.
 	 * @todo Remove responsive classes. Why should adaptive designs be brought into IE8?
 	 * @todo Support for media queries by using `matchMedia` would be nice.
-	 * @public
+	 * @public_html
 	 */
 	Owl.prototype.setup = function() {
 		var viewport = this.viewport(),
@@ -569,7 +569,7 @@
 
 	/**
 	 * Updates the view.
-	 * @public
+	 * @public_html
 	 */
 	Owl.prototype.update = function() {
 		var i = 0,
@@ -591,7 +591,7 @@
 
 	/**
 	 * Gets the width of the view.
-	 * @public
+	 * @public_html
 	 * @param {Owl.Width} [dimension=Owl.Width.Default] - The dimension to return.
 	 * @returns {Number} - The width of the view in pixel.
 	 */
@@ -608,7 +608,7 @@
 
 	/**
 	 * Refreshes the carousel primarily for adaptive purposes.
-	 * @public
+	 * @public_html
 	 */
 	Owl.prototype.refresh = function() {
 		this.enter('refreshing');
@@ -878,7 +878,7 @@
 	/**
 	 * Animates the stage.
 	 * @todo #270
-	 * @public
+	 * @public_html
 	 * @param {Number} coordinate - The coordinate in pixels.
 	 */
 	Owl.prototype.animate = function(coordinate) {
@@ -918,7 +918,7 @@
 
 	/**
 	 * Sets the absolute position of the current item.
-	 * @public
+	 * @public_html
 	 * @param {Number} [position] - The new absolute position or nothing to leave it unchanged.
 	 * @returns {Number} - The absolute position of the current item.
 	 */
@@ -965,7 +965,7 @@
 
 	/**
 	 * Resets the absolute position of the current item.
-	 * @public
+	 * @public_html
 	 * @param {Number} position - The absolute position of the new item.
 	 */
 	Owl.prototype.reset = function(position) {
@@ -987,7 +987,7 @@
 
 	/**
 	 * Normalizes an absolute or a relative position of an item.
-	 * @public
+	 * @public_html
 	 * @param {Number} position - The absolute or relative position to normalize.
 	 * @param {Boolean} [relative=false] - Whether the given position is relative or not.
 	 * @returns {Number} - The normalized position.
@@ -1007,7 +1007,7 @@
 
 	/**
 	 * Converts an absolute position of an item into a relative one.
-	 * @public
+	 * @public_html
 	 * @param {Number} position - The absolute position to convert.
 	 * @returns {Number} - The converted position.
 	 */
@@ -1018,7 +1018,7 @@
 
 	/**
 	 * Gets the maximum position for the current item.
-	 * @public
+	 * @public_html
 	 * @param {Boolean} [relative=false] - Whether to return an absolute position or a relative position.
 	 * @returns {Number}
 	 */
@@ -1057,7 +1057,7 @@
 
 	/**
 	 * Gets the minimum position for the current item.
-	 * @public
+	 * @public_html
 	 * @param {Boolean} [relative=false] - Whether to return an absolute position or a relative position.
 	 * @returns {Number}
 	 */
@@ -1067,7 +1067,7 @@
 
 	/**
 	 * Gets an item at the specified relative position.
-	 * @public
+	 * @public_html
 	 * @param {Number} [position] - The relative position of the item.
 	 * @return {jQuery|Array.<jQuery>} - The item at the given position or all items if no position was given.
 	 */
@@ -1082,7 +1082,7 @@
 
 	/**
 	 * Gets an item at the specified relative position.
-	 * @public
+	 * @public_html
 	 * @param {Number} [position] - The relative position of the item.
 	 * @return {jQuery|Array.<jQuery>} - The item at the given position or all items if no position was given.
 	 */
@@ -1097,7 +1097,7 @@
 
 	/**
 	 * Gets the absolute positions of clones for an item.
-	 * @public
+	 * @public_html
 	 * @param {Number} [position] - The relative position of the item.
 	 * @returns {Array.<Number>} - The absolute positions of clones for the item or all if no position was given.
 	 */
@@ -1115,7 +1115,7 @@
 
 	/**
 	 * Sets the current animation speed.
-	 * @public
+	 * @public_html
 	 * @param {Number} [speed] - The animation speed in milliseconds or nothing to leave it unchanged.
 	 * @returns {Number} - The current animation speed in milliseconds.
 	 */
@@ -1130,7 +1130,7 @@
 	/**
 	 * Gets the coordinate of an item.
 	 * @todo The name of this method is missleanding.
-	 * @public
+	 * @public_html
 	 * @param {Number} position - The absolute position of the item within `minimum()` and `maximum()`.
 	 * @returns {Number|Array.<Number>} - The coordinate of the item in pixel or all coordinates.
 	 */
@@ -1180,7 +1180,7 @@
 
 	/**
 	 * Slides to the specified item.
-	 * @public
+	 * @public_html
 	 * @param {Number} position - The position of the item.
 	 * @param {Number} [speed] - The time in milliseconds for the transition.
 	 */
@@ -1223,7 +1223,7 @@
 
 	/**
 	 * Slides to the next item.
-	 * @public
+	 * @public_html
 	 * @param {Number} [speed] - The time in milliseconds for the transition.
 	 */
 	Owl.prototype.next = function(speed) {
@@ -1233,7 +1233,7 @@
 
 	/**
 	 * Slides to the previous item.
-	 * @public
+	 * @public_html
 	 * @param {Number} [speed] - The time in milliseconds for the transition.
 	 */
 	Owl.prototype.prev = function(speed) {
@@ -1283,7 +1283,7 @@
 
 	/**
 	 * Replaces the current content.
-	 * @public
+	 * @public_html
 	 * @param {HTMLElement|jQuery|String} content - The new content.
 	 */
 	Owl.prototype.replace = function(content) {
@@ -1315,7 +1315,7 @@
 	/**
 	 * Adds an item.
 	 * @todo Use `item` instead of `content` for the event arguments.
-	 * @public
+	 * @public_html
 	 * @param {HTMLElement|jQuery|String} content - The item content to add.
 	 * @param {Number} [position] - The relative position at which to insert the item otherwise the item will be added to the end.
 	 */
@@ -1350,7 +1350,7 @@
 	/**
 	 * Removes an item by its position.
 	 * @todo Use `item` instead of `content` for the event arguments.
-	 * @public
+	 * @public_html
 	 * @param {Number} position - The relative position of the item to remove.
 	 */
 	Owl.prototype.remove = function(position) {
@@ -1391,7 +1391,7 @@
 
 	/**
 	 * Destroys the carousel.
-	 * @public
+	 * @public_html
 	 */
 	Owl.prototype.destroy = function() {
 
@@ -1481,7 +1481,7 @@
 	};
 
 	/**
-	 * Triggers a public event.
+	 * Triggers a public_html event.
 	 * @todo Remove `status`, `relatedTarget` should be used instead.
 	 * @protected
 	 * @param {String} name - The event name.
@@ -1546,7 +1546,7 @@
 
 	/**
 	 * Registers an event or state.
-	 * @public
+	 * @public_html
 	 * @param {Object} object - The event or state to register.
 	 */
 	Owl.prototype.register = function(object) {
@@ -1655,7 +1655,7 @@
 	/**
 	 * The jQuery Plugin for the Owl Carousel
 	 * @todo Navigation plugin `next` and `prev`
-	 * @public
+	 * @public_html
 	 */
 	$.fn.owlCarousel = function(option) {
 		var args = Array.prototype.slice.call(arguments, 1);
@@ -1690,7 +1690,7 @@
 
 	/**
 	 * The constructor for the jQuery Plugin
-	 * @public
+	 * @public_html
 	 */
 	$.fn.owlCarousel.Constructor = Owl;
 
@@ -1754,7 +1754,7 @@
 
 	/**
 	 * Default options.
-	 * @public
+	 * @public_html
 	 */
 	AutoRefresh.Defaults = {
 		autoRefresh: true,
@@ -1879,7 +1879,7 @@
 
 	/**
 	 * Default options.
-	 * @public
+	 * @public_html
 	 */
 	Lazy.Defaults = {
 		lazyLoad: false
@@ -1927,7 +1927,7 @@
 
 	/**
 	 * Destroys the plugin.
-	 * @public
+	 * @public_html
 	 */
 	Lazy.prototype.destroy = function() {
 		var handler, property;
@@ -1999,7 +1999,7 @@
 
 	/**
 	 * Default options.
-	 * @public
+	 * @public_html
 	 */
 	AutoHeight.Defaults = {
 		autoHeight: false,
@@ -2132,7 +2132,7 @@
 
 	/**
 	 * Default options.
-	 * @public
+	 * @public_html
 	 */
 	Video.Defaults = {
 		video: false,
@@ -2276,7 +2276,7 @@
 
 	/**
 	 * Stops the current video.
-	 * @public
+	 * @public_html
 	 */
 	Video.prototype.stop = function() {
 		this._core.trigger('stop', null, 'video');
@@ -2289,7 +2289,7 @@
 
 	/**
 	 * Starts the current video.
-	 * @public
+	 * @public_html
 	 * @param {Event} event - The event arguments.
 	 */
 	Video.prototype.play = function(event) {
@@ -2407,7 +2407,7 @@
 
 	/**
 	 * Default options.
-	 * @public
+	 * @public_html
 	 */
 	Animate.Defaults = {
 		animateOut: false,
@@ -2467,7 +2467,7 @@
 
 	/**
 	 * Destroys the plugin.
-	 * @public
+	 * @public_html
 	 */
 	Animate.prototype.destroy = function() {
 		var handler, property;
@@ -2585,7 +2585,7 @@
 
 	/**
 	 * Default options.
-	 * @public
+	 * @public_html
 	 */
 	Autoplay.Defaults = {
 		autoplay: false,
@@ -2596,7 +2596,7 @@
 
 	/**
 	 * Starts the autoplay.
-	 * @public
+	 * @public_html
 	 * @param {Number} [timeout] - The interval before the next animation starts.
 	 * @param {Number} [speed] - The animation speed for the animations.
 	 */
@@ -2641,7 +2641,7 @@
 
 	/**
 	 * Stops the autoplay.
-	 * @public
+	 * @public_html
 	 */
 	Autoplay.prototype.stop = function() {
 		if (!this._core.is('rotating')) {
@@ -2654,7 +2654,7 @@
 
 	/**
 	 * Stops the autoplay.
-	 * @public
+	 * @public_html
 	 */
 	Autoplay.prototype.pause = function() {
 		if (!this._core.is('rotating')) {
@@ -2808,7 +2808,7 @@
 
 	/**
 	 * Default options.
-	 * @public
+	 * @public_html
 	 * @todo Rename `slideBy` to `navBy`
 	 */
 	Navigation.Defaults = {
@@ -2876,7 +2876,7 @@
 			this.to(index, settings.dotsSpeed);
 		}, this));
 
-		// override public methods of the carousel
+		// override public_html methods of the carousel
 		for (override in this._overrides) {
 			this._core[override] = $.proxy(this[override], this);
 		}
@@ -3029,7 +3029,7 @@
 
 	/**
 	 * Slides to the next item or page.
-	 * @public
+	 * @public_html
 	 * @param {Number} [speed=false] - The time in milliseconds for the transition.
 	 */
 	Navigation.prototype.next = function(speed) {
@@ -3038,7 +3038,7 @@
 
 	/**
 	 * Slides to the previous item or page.
-	 * @public
+	 * @public_html
 	 * @param {Number} [speed=false] - The time in milliseconds for the transition.
 	 */
 	Navigation.prototype.prev = function(speed) {
@@ -3047,7 +3047,7 @@
 
 	/**
 	 * Slides to the specified item or page.
-	 * @public
+	 * @public_html
 	 * @param {Number} position - The position of the item or page.
 	 * @param {Number} [speed] - The time in milliseconds for the transition.
 	 * @param {Boolean} [standard=false] - Whether to use the standard behaviour or not.
@@ -3163,7 +3163,7 @@
 
 	/**
 	 * Default options.
-	 * @public
+	 * @public_html
 	 */
 	Hash.Defaults = {
 		URLhashListener: false
@@ -3171,7 +3171,7 @@
 
 	/**
 	 * Destroys the plugin.
-	 * @public
+	 * @public_html
 	 */
 	Hash.prototype.destroy = function() {
 		var handler, property;
