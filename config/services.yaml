@@ -4,6 +4,9 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+    enedis_api.login_user: '%env(resolve:ENEDIS_API_LOGIN_USER)%'
+    ohm_certs.bundled_key: '%kernel.project_dir%/certs/ELDElec/BundledCerts/proxy-ssl-sge.prod-bundle.pem'
+    enedis_api.research_point.wsdl: '%kernel.project_dir%/src/Http/Ressources/Enedis/RecherchePointV2_0/Services/RecherchePoint/RecherchePoint-v2.0.wsdl'
 
 services:
     # default configuration for services in *this* file

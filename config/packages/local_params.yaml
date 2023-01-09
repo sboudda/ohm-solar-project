@@ -1,0 +1,5 @@
+parameters:
+  ohm.base_url: '%env(resolve:OHM_BASE_URL)%'
+  ohm.username: '%env(resolve:OHM_API_USERNAME)%'
+  ohm.password: '%env(resolve:OHM_API_PASSWORD)%'
+  trace_web_service_timing: '%env(TRACE_WEBSERVIVE_EXECUTION_TIME)%'

@@ -5,30 +5,32 @@ namespace App\Controller;
 use App\Entity\Address;
 use App\Entity\Client;
 use App\Entity\Prospect;
-use App\Entity\Toit;
+use App\Entity\Roof;
 use App\Form\data\StepFiveData;
 use App\Form\data\StepOneData;
 use App\Form\StepFiveFormType;
+use App\Manager\DeliveryPointSearchManager;
+use App\Manager\OhmApiManager;
 use App\Services\StepValidation;
-use Symfony\Component\Routing\Annotation\Route;
 use App\Form\data\StepTwoData;
 use App\Form\data\StepThirdData;
 use App\Form\StepOneFormType;
 use App\Form\StepTwoFormType;
-
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Routing\Annotation\Route;
 use App\Form\StepThreeFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class SolarController extends AbstractController
+class WebChannelController extends AbstractController
 {
-    private $stepvalidator;
+    private $stepValidator;
 
-    public function __construct(StepValidation $stepvalidator)
+    public function __construct(StepValidation $stepValidator)
     {
-        $this->stepvalidator = $stepvalidator;
+        $this->stepValidator = $stepValidator;
     }
 
 
@@ -43,7 +45,7 @@ class SolarController extends AbstractController
     /**
      * @Route("/quote", name="step_one")
      */
-    public function stepOne(Request $request, EntityManagerInterface $entityManager): Response
+    public function stepOne(Request $request, EntityManagerInterface $entityManager,SessionInterface $session): Response
     {
         $data = [];
         $step = new StepOneData();
@@ -52,12 +54,16 @@ class SolarController extends AbstractController
         $data['form'] = $form->createView();
         if ($form->isSubmitted() && $form->isValid()) {
             //save to DB
+            // in the future we shall move this dirty work to a manager
             $prospect = new Prospect();
+
             $address = new Address();
             $address->setFavorite(1);
             $client = new Client();
-            $roof = new Toit();
+            $roof = new Roof();
             $prospect->setReference($prospect::generateProspectReference());
+            //set the session
+            $session->set('prospect_reference_in_current_journey',$prospect->getReference());
             $roof->setProspect($prospect);
             $client->addProspect($prospect);
             $address->setRawAddress($step->getAddress());
@@ -89,10 +95,10 @@ class SolarController extends AbstractController
             /**
              * Prospect $prospect
              */
-            $prospect = $this->stepvalidator->validateReference($reference);
+            $prospect = $this->stepValidator->validateReference($reference);
             if(!$prospect)
             {
-              return   $this->stepvalidator->redirectWithFlash();
+              return   $this->stepValidator->redirectWithFlash();
             }
 
             $form = $this->createForm(StepTwoFormType::class, $step);
@@ -146,10 +152,10 @@ class SolarController extends AbstractController
             /**
              * Prospect $prospect
              */
-            $prospect = $this->stepvalidator->validateReference($reference);
+            $prospect = $this->stepValidator->validateReference($reference);
             if(!$prospect)
             {
-                return   $this->stepvalidator->redirectWithFlash();
+                return   $this->stepValidator->redirectWithFlash();
             }
 
             $client = $prospect->getClient();
@@ -166,7 +172,7 @@ class SolarController extends AbstractController
                 $client = $prospect->getClient();
                 $ClientObj = $entityManager->getRepository(Client::class)->getFavoriteAddress($client);
                 $address = $ClientObj->getAddress()->first();
-                $roof = $prospect->getToit();
+                $roof = $prospect->getRoof();
                 $roof->setArea($step->getArea());
                 $address->setPoints([$step->getBorderA(), $step->getBorderB(), $step->getBorderC(), $step->getBorderD()]);
                 $entityManager->persist($address);
@@ -196,10 +202,10 @@ class SolarController extends AbstractController
             /**
              * Prospect $prospect
              */
-            $prospect = $this->stepvalidator->validateReference($reference);
+            $prospect = $this->stepValidator->validateReference($reference);
             if(!$prospect)
             {
-                return   $this->stepvalidator->redirectWithFlash();
+                return   $this->stepValidator->redirectWithFlash();
             }
 
             $form = $this->createForm(StepFiveFormType::class, $step);
@@ -208,11 +214,10 @@ class SolarController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
 
                 // save the geocode and go to step 6
-               $toit = $prospect->getToit();
+               $toit = $prospect->getRoof();
                $toit->setOrientation($step->getOrientation());
                $entityManager->persist($prospect);
                $entityManager->flush();
-
 
                 return $this->redirectToRoute('step_six', ['reference' => $prospect->getReference()]);
 
@@ -221,4 +226,44 @@ class SolarController extends AbstractController
             return $this->render('step/stepFive.html.twig', $data);
         }
     }
+
+    /**
+     * We make sure the reference exists and displays the compass
+     * @Route("/pointpdl", name="pointpdl")
+     * @return Response
+     */
+    public function searchPdlByAddress(DeliveryPointSearchManager $deliveryPointSearchManager)
+    {
+
+        $data = [];
+        $data['zipcode'] = "84000";
+        $data['city'] = "AVIGNON";
+        $data['lineone'] = "8 bd MARCEL COMBE";
+        $data['lastname'] = "AIDOUDI"; // Mounia
+        $data['registrationnumberorserialnumber'] = ""; //registrationNumberOrSerialNumber
+       $result =  $deliveryPointSearchManager->searchPdlByAddress($data);
+       dump($result);
+
+        return new Response('ok');
+    }
+
+    /**
+     * We make sure the reference exists and displays the compass
+     * @Route("/token_test", name="token")
+     * @return Response
+     */
+    public function getToken(OhmApiManager $apiManager)
+    {
+
+
+        $token =  $apiManager->getToken();
+        //get the estimation for the client given the pdl
+
+        return new Response('ok');
+
+
+    }
+
+
+
 }

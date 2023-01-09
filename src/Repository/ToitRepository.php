@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\Toit;
+use App\Entity\Roof;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Toit>
+ * @extends ServiceEntityRepository<Roof>
  *
- * @method Toit|null find($id, $lockMode = null, $lockVersion = null)
- * @method Toit|null findOneBy(array $criteria, array $orderBy = null)
- * @method Toit[]    findAll()
- * @method Toit[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Roof|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Roof|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Roof[]    findAll()
+ * @method Roof[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class ToitRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Toit::class);
+        parent::__construct($registry, Roof::class);
     }
 
-    public function add(Toit $entity, bool $flush = false): void
+    public function add(Roof $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class ToitRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Toit $entity, bool $flush = false): void
+    public function remove(Roof $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 

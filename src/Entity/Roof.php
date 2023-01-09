@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass=ToitRepository::class)
  * @ORM\HasLifecycleCallbacks()
  */
-class Toit
+class Roof
 {
     /**
      * @ORM\Id

@@ -41,9 +41,9 @@ class Prospect
     private $client;
 
     /**
-     * @ORM\OneToOne(targetEntity=Toit::class, mappedBy="prospect", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Roof::class, mappedBy="prospect", cascade={"persist", "remove"})
      */
-    private $toit;
+    private $roof;
 
 
     public function getId(): ?int
@@ -126,24 +126,24 @@ class Prospect
         return $this;
     }
 
-    public function getToit(): ?Toit
+    public function getRoof(): ?Roof
     {
-        return $this->toit;
+        return $this->roof;
     }
 
-    public function setToit(?Toit $toit): self
+    public function setRoof(?Roof $roof): self
     {
         // unset the owning side of the relation if necessary
-        if ($toit === null && $this->toit !== null) {
-            $this->toit->setProspect(null);
+        if ($roof === null && $this->roof !== null) {
+            $this->roof->setProspect(null);
         }
 
         // set the owning side of the relation if necessary
-        if ($toit !== null && $toit->getProspect() !== $this) {
-            $toit->setProspect($this);
+        if ($roof !== null && $roof->getProspect() !== $this) {
+            $roof->setProspect($this);
         }
 
-        $this->toit = $toit;
+        $this->roof = $roof;
 
         return $this;
     }
