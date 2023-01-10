@@ -20,6 +20,12 @@ class StepOneData
     private $address;
 
     /**
+     * @var string|null
+     */
+    private $prospectReference;
+
+
+    /**
      * @return mixed
      */
     public function getAddress()
@@ -36,6 +42,24 @@ class StepOneData
         $this->address = $address;
         return $this;
     }
+
+    /**
+     * @return string|null
+     */
+    public function getProspectReference(): ?string
+    {
+        return $this->prospectReference;
+    }
+
+    /**
+     * @param string|null $prospectReference
+     */
+    public function setProspectReference(?string $prospectReference): void
+    {
+        $this->prospectReference = $prospectReference;
+    }
+
+
 
 
 

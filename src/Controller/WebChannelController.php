@@ -11,6 +11,7 @@ use App\Form\data\StepOneData;
 use App\Form\StepFiveFormType;
 use App\Manager\DeliveryPointSearchManager;
 use App\Manager\OhmApiManager;
+use App\Manager\StepOneStepManager;
 use App\Services\StepValidation;
 use App\Form\data\StepTwoData;
 use App\Form\data\StepThirdData;
@@ -45,17 +46,27 @@ class WebChannelController extends AbstractController
     /**
      * @Route("/quote", name="step_one")
      */
-    public function stepOne(Request $request, EntityManagerInterface $entityManager,SessionInterface $session): Response
+    public function stepOne(Request $request, EntityManagerInterface $entityManager,SessionInterface $session, StepOneStepManager $stepManager): Response
     {
         $data = [];
         $step = new StepOneData();
+        // on est en mode modif, car on a une reference client
+        if ($prospect = $stepManager->findCurrentProspect()) {
+            $step = $stepManager->reverseTransformStep($step);
+        }
         $form = $this->createForm(StepOneFormType::class, $step);
         $form->handleRequest($request);
         $data['form'] = $form->createView();
         if ($form->isSubmitted() && $form->isValid()) {
+            if (!$step->getProspectReference()) {
+                $prospect = new Prospect();
+                $step->setProspectReference(Prospect::generateProspectReference());
+            }
+            $prospect = $stepManager->transformStep($step);
+
             //save to DB
             // in the future we shall move this dirty work to a manager
-            $prospect = new Prospect();
+
 
             $address = new Address();
             $address->setFavorite(1);
@@ -239,10 +250,11 @@ class WebChannelController extends AbstractController
         $data['zipcode'] = "84000";
         $data['city'] = "AVIGNON";
         $data['lineone'] = "8 bd MARCEL COMBE";
-        $data['lastname'] = "AIDOUDI"; // Mounia
+        // constraint : to search outside bounds we need to fill the lastname
+        $data['lastname'] = "AIDOUDI"; // AIDOUDI
         $data['registrationnumberorserialnumber'] = ""; //registrationNumberOrSerialNumber
-       $result =  $deliveryPointSearchManager->searchPdlByAddress($data);
-       dump($result);
+        $result =  $deliveryPointSearchManager->searchPdlByAddress($data);
+        dump($result);
 
         return new Response('ok');
     }

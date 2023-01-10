@@ -67,13 +67,11 @@ class DeliveryPointSearchManager
         $searchCriteriaObject = new stdClass();
         $searchCriteriaObject->adresseInstallation = $addressObject;
 
-        // si on ajoute le parametre nomClientFinalOuDenominationSociale sans précoion génère une regression
-        // Verifier si l'action provient du web or Phone
-//        if ($data->getJourney() === JourneyType::WEB_JOURNEY) {
+
         // TODO
         // ce paramètre n'est plus obligatoir sur enedis, si enedis joue avec se paramètre
         // donc il faut prévoir une solution ultras rapide pour contourner le problème s'il va se passer
-        //Amani :le parametre nomClientFinalOuDenominationSociale est rendu obligatoire sur enedis,
+        // Amani :le parametre nomClientFinalOuDenominationSociale est rendu obligatoire sur enedis,
         // donc on doit envoyer ce parametre dans les 2 parcours web et phone et pas seulement  web
         $searchOutsideTheScope = true;
         if (!empty($data['lastname'])) {
