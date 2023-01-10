@@ -1,0 +1,42 @@
+<!-- map Start -->
+<div class="container-fluid bg-light overflow-hidden my-5 px-lg-0">
+    <div class="container quote px-lg-0">
+        <div class="row g-0 mx-lg-0">
+            <div class="col-lg-6 quote-text py-5 wow fadeIn" data-wow-delay="0.5s">
+                <div class="p-lg-5 pe-lg-0">
+                    <h6 class="text-primary">Free Quote</h6>
+                    <h1 class="mb-4">Orientation de vôtre Toit</h1>
+                    <p class="mb-4 pb-2">Bouger le compass dans la direction dans laquelle est orienté votre toit</p>
+                    <p class="mb-4 pb-2">Ensuite cliquez sur suivant </p>
+                    {{ form_start(form) }}
+                    <div class="row g-3">
+                        <div class="error-class">
+                            {{ form_errors(form) }}
+                        </div>
+                        <div class="col-12">
+                            {{ form_widget(form.orientation) }}
+                        </div>
+                        <div class="col-6">
+                            {{ form_widget(form.next, { 'label': 'Suivant' }) }}
+                        </div>
+                    </div>
+                    {{ form_end(form) }}
+
+                </div>
+            </div>
+            <div class="col-lg-6 ps-lg-0 wow fadeIn" data-wow-delay="0.1s" style="min-height: 400px;">
+                <div class="position-relative h-100">
+                    <h3 class="text-secondary">Quelle est l´orientation de <span> votre toiture ?</span></h3>
+                    <div class="form-group exposition-container">
+                        <!-- orientation compass-->
+                        <div id="nav-form"></div>
+                        <div class="invalid-feedback alert alert-danger hide" data-val="">
+                            Choissez votre orientation.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Quote End -->

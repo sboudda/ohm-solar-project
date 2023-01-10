@@ -1,0 +1,69 @@
+<wsdl:definitions name="ConsultationPoint-V4.0"
+                  targetNamespace="http://www.enedis.fr/sge/b2b/services/consultationpoint/v4.0"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                  xmlns:tns="http://www.enedis.fr/sge/b2b/services/consultationpoint/v4.0"
+                  xmlns:opev2p0="http://www.enedis.fr/sge/b2b/services/consulterdonneespoint/v4.0"
+                  xmlns:tec="http://www.enedis.fr/sge/b2b/technique/v1.0">
+    <wsdl:types>
+        <xs:schema>
+            <xs:import schemaLocation="ConsulterDonneesPoint-v4.0.xsd"
+                       namespace="http://www.enedis.fr/sge/b2b/services/consulterdonneespoint/v4.0"/>
+            <xs:import schemaLocation="../../Dictionnaires/Technique/v1.0/ENEDIS.Dictionnaire.Technique.v1.0.xsd"
+                       namespace="http://www.enedis.fr/sge/b2b/technique/v1.0"/>
+        </xs:schema>
+    </wsdl:types>
+    <!-- Messages -->
+    <wsdl:message name="consulterDonneesPoint">
+        <wsdl:part name="consulterDonneesPoint" element="opev2p0:consulterDonneesPoint"/>
+    </wsdl:message>
+    <wsdl:message name="consulterDonneesPointResponse">
+        <wsdl:part name="consulterDonneesPointResponse" element="opev2p0:consulterDonneesPointResponse"/>
+    </wsdl:message>
+    <!-- Erreur -->
+    <wsdl:message name="erreur">
+        <wsdl:part name="Erreur" element="tec:erreur"/>
+    </wsdl:message>
+    <!-- Entete -->
+    <wsdl:message name="entete">
+        <wsdl:part name="entete" element="tec:entete"/>
+    </wsdl:message>
+    <!-- EnteteRetour -->
+    <wsdl:message name="acquittement">
+        <wsdl:part name="acquittement" element="tec:acquittement"/>
+    </wsdl:message>
+    <!-- portType -->
+    <wsdl:portType name="ConsultationPointPortType">
+        <wsdl:operation name="consulterDonneesPoint">
+            <wsdl:input message="tns:consulterDonneesPoint" name="consulterDonneesPoint"/>
+            <wsdl:output message="tns:consulterDonneesPointResponse" name="consulterDonneesPointResponse"/>
+            <wsdl:fault message="tns:erreur" name="erreur"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <!-- binding -->
+    <wsdl:binding name="ConsultationPointBinding" type="tns:ConsultationPointPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <!-- consulterDonneesPoint -->
+        <wsdl:operation name="consulterDonneesPoint">
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input name="consulterDonneesPoint">
+                <soap:body use="literal"/>
+                <soap:header use="literal" part="entete" message="tns:entete"/>
+            </wsdl:input>
+            <wsdl:output name="consulterDonneesPointResponse">
+                <soap:body use="literal"/>
+                <soap:header use="literal" part="acquittement" message="tns:acquittement"/>
+            </wsdl:output>
+            <wsdl:fault name="erreur">
+                <soap:fault name="erreur" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+    </wsdl:binding>
+    <!-- service -->
+    <wsdl:service name="ConsultationPointV4.0">
+        <wsdl:port name="ConsultationPointPort" binding="tns:ConsultationPointBinding">
+            <!--			attention, l'adresse est modifier-->
+            <soap:address location="https://sge-b2b.enedis.fr/ConsultationPoint/v4.0"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

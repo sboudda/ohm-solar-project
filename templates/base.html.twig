@@ -1,0 +1,145 @@
+{% include('include/header.html.twig') %}
+<body>
+{% if app.session.flashbag.peekAll|length > 0 %}
+    {% for type, messages in app.session.flashbag.all %}
+        {% set convertedType = '' %}
+        {% if  type =='notice' %}
+            {% set convertedType = 'warning' %}
+        {% endif %}
+        {% if  type == 'success' %}
+            {% set convertedType = 'success' %}
+        {% endif %}
+        {% if  type == 'error' %}
+            {% set convertedType = 'danger' %}
+        {% endif %}
+        {% if  type == 'info' %}
+            {% set convertedType = 'info' %}
+        {% endif %}
+        {% if  type == 'general' %}
+            {% set convertedType = 'primary' %}
+        {% endif %}
+
+        {% for message in messages %}
+            <div class="alert alert-{{ convertedType ? convertedType : '' }} alert-dismissible fade show" role="alert">
+                {{ message|trans({}, domain|default('messages')) }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                </button>
+            </div>
+        {% endfor %}
+    {% endfor %}
+{% endif %}
+{% block spinner %}
+<!-- Spinner Start -->
+<div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+<!-- Spinner End -->
+{% endblock %}
+{% block Topbar %}
+<!-- Topbar Start -->
+<div class="container-fluid bg-dark p-0">
+    <div class="row gx-0 d-none d-lg-flex">
+        <div class="col-lg-7 px-5 text-start">
+            <div class="h-100 d-inline-flex align-items-center me-4">
+                <small class="fa fa-map-marker-alt text-primary me-2"></small>
+                <small>123 Street, New York, USA</small>
+            </div>
+            <div class="h-100 d-inline-flex align-items-center">
+                <small class="far fa-clock text-primary me-2"></small>
+                <small>Mon - Fri : 09.00 AM - 09.00 PM</small>
+            </div>
+        </div>
+        <div class="col-lg-5 px-5 text-end">
+            <div class="h-100 d-inline-flex align-items-center me-4">
+                <small class="fa fa-phone-alt text-primary me-2"></small>
+                <small>+012 345 6789</small>
+            </div>
+            <div class="h-100 d-inline-flex align-items-center mx-n2">
+                <a class="btn btn-square btn-link rounded-0 border-0 border-end border-secondary" href=""><i class="fab fa-facebook-f"></i></a>
+                <a class="btn btn-square btn-link rounded-0 border-0 border-end border-secondary" href=""><i class="fab fa-twitter"></i></a>
+                <a class="btn btn-square btn-link rounded-0 border-0 border-end border-secondary" href=""><i class="fab fa-linkedin-in"></i></a>
+                <a class="btn btn-square btn-link rounded-0" href=""><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Topbar End -->
+{% endblock %}
+{% block Navbar %}
+    {% include('include/navbar.html.twig') %}
+{% endblock %}
+{% block Carousel %}
+    {% include('include/carousel.html.twig') %}
+{% endblock %}
+{% block feature %}
+<!-- Feature Start -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.1s">
+                <div class="d-flex align-items-center mb-4">
+                    <div class="btn-lg-square bg-primary rounded-circle me-3">
+                        <i class="fa fa-users text-white"></i>
+                    </div>
+                    <h1 class="mb-0" data-toggle="counter-up">3453</h1>
+                </div>
+                <h5 class="mb-3">Happy Customers</h5>
+                <span>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit</span>
+            </div>
+            <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.3s">
+                <div class="d-flex align-items-center mb-4">
+                    <div class="btn-lg-square bg-primary rounded-circle me-3">
+                        <i class="fa fa-check text-white"></i>
+                    </div>
+                    <h1 class="mb-0" data-toggle="counter-up">4234</h1>
+                </div>
+                <h5 class="mb-3">Project Done</h5>
+                <span>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit</span>
+            </div>
+            <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.5s">
+                <div class="d-flex align-items-center mb-4">
+                    <div class="btn-lg-square bg-primary rounded-circle me-3">
+                        <i class="fa fa-award text-white"></i>
+                    </div>
+                    <h1 class="mb-0" data-toggle="counter-up">3123</h1>
+                </div>
+                <h5 class="mb-3">Awards Win</h5>
+                <span>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit</span>
+            </div>
+            <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.7s">
+                <div class="d-flex align-items-center mb-4">
+                    <div class="btn-lg-square bg-primary rounded-circle me-3">
+                        <i class="fa fa-users-cog text-white"></i>
+                    </div>
+                    <h1 class="mb-0" data-toggle="counter-up">1831</h1>
+                </div>
+                <h5 class="mb-3">Expert Workers</h5>
+                <span>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit</span>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Feature Start -->
+{% endblock %}
+{% block page %}
+    {% include('pages/about.html.twig') %}
+    {% include('pages/service.html.twig') %}
+    {% include('pages/feature.html.twig') %}
+    {% include('pages/project.html.twig') %}
+
+    {% include('pages/team.html.twig') %}
+{% include('pages/testimonial.html.twig') %}
+{% endblock %}
+{% include('include/footer.html.twig') %}
+<!-- Back to Top -->
+<a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"><i class="bi bi-arrow-up"></i></a>
+{% block JavaScript %}
+    {% include('include/javascripts.html.twig') %}
+{% endblock %}
+{% block customJs %}
+{% endblock %}
+</body>
+
+</html>
