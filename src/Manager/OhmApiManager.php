@@ -6,6 +6,9 @@ use App\Constant\Constant;
 use App\Http\BaseHttpCalls;
 use App\Utilities\TraceJourneyHandler;
 use Doctrine\ORM\EntityManagerInterface;
+use GuzzleHttp\Exception\GuzzleException;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,21 +17,19 @@ use Symfony\Component\HttpFoundation\Request;
 
 class OhmApiManager extends BaseHttpCalls
 {
+    /**
+     * constant for the relative url of the api end point
+     */
     const RELATIVE_URL = '/api/';
 
-    /*
-     * @var password
-     */
-    /**
-     * @var username
-     */
-    private $username;
     private $password;
-    /**
-     * @var null
-     */
+
+    private $username;
+
     private $token;
+
     private $endPoint;
+
     private $response;
 
     public function __construct(ContainerBagInterface $containerBag, SessionInterface $session, TraceJourneyHandler $logger, EntityManagerInterface $em = null)
@@ -89,6 +90,7 @@ class OhmApiManager extends BaseHttpCalls
     }
 
     /**
+     * Function to initialise the headers
      * @return $this
      */
     public function init()
@@ -98,14 +100,14 @@ class OhmApiManager extends BaseHttpCalls
     }
 
     /**
-     * @param $endPointPart
-     * @return void
+     * Main function to fetch the data from the endpoint
+     * @param $params
+     * @param $queryParams
+     * @return array
+     * @throws GuzzleException
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    private function setEndPoint($endPointPart): void
-    {
-        $this->endPoint = $endPointPart;
-    }
-
     public function send($params = [], $queryParams = [])
     {
         $uri = $this->containerBag->get('ohm.base_url') . self::RELATIVE_URL;
@@ -136,6 +138,17 @@ class OhmApiManager extends BaseHttpCalls
     }
 
     /**
+     * Function to set the Endpoint
+     * @param $endPointPart
+     * @return void
+     */
+    private function setEndPoint($endPointPart): void
+    {
+        $this->endPoint = $endPointPart;
+    }
+
+    /**
+     * Function to get the Endpoint
      * @return string
      */
     private function getEndPoint(): string
