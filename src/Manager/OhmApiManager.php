@@ -2,6 +2,7 @@
 
 namespace App\Manager;
 
+use App\Constant\Constant;
 use App\Http\BaseHttpCalls;
 use App\Utilities\TraceJourneyHandler;
 use Doctrine\ORM\EntityManagerInterface;
@@ -27,6 +28,8 @@ class OhmApiManager extends BaseHttpCalls
      * @var null
      */
     private $token;
+    private $endPoint;
+    private $response;
 
     public function __construct(ContainerBagInterface $containerBag, SessionInterface $session, TraceJourneyHandler $logger, EntityManagerInterface $em = null)
     {
@@ -38,41 +41,84 @@ class OhmApiManager extends BaseHttpCalls
     }
 
     /**
-     * @return void
+     * Function to return the estimation given a string pdl
+     * @param $pdl
+     * @return mixed
+     */
+    public function getEstimationbyPdl($pdl)
+    {
+        $this->getToken();
+        $estimation = false;
+        $this->setAuthorisationHeaders();
+        $this->setEndPoint("consulter-mesure");
+        // set the standard variables
+        /**
+         * @Todo either move the constants in configs as they won't change except the pdl until further notice
+         */
+        $queryParams = [
+            'deliveryPoint' => $pdl,
+            'predictionLevel' => 1,
+            'contractType' => 'changement_de_fournisseur',
+            'energy' => 'elec_energy',
+            'token' => 'no_token',
+            'salt' => 'no_salt'
+        ];
+        $response = $this->send(null, $queryParams);
+        $this->handleResponse($response);
+
+        return
+            ($this->response &&
+                isset($this->response['body']['totalEstimatedMeasure'])) ?
+                $this->response['body']['totalEstimatedMeasure'] : false;
+
+    }
+
+    /**
+     * Function to return the token for future use.
+     * @return mixed
      */
     public function getToken()
     {
-
         $this->init();
-        $response = $this->send(['username' => $this->username, 'password' => $this->password, 'action_path' => 'login_check']);
-        if ($response['code'] == Response::HTTP_OK) {
-            $this->token = $response['body']['token'];
-        } else {
+        //the endpoint for token is "login_check"
+        $this->setEndPoint("login_check");
+        $response = $this->send(['username' => $this->username, 'password' => $this->password]);
+        $this->handleResponse($response);
 
-            throw new Exception('Une erreur est survenue lors de la recuperation du token');
-        }
-
-        return $this->token;
+        return $this->response ? $this->setToken($this->response['token']) : false;
     }
 
+    /**
+     * @return $this
+     */
     public function init()
     {
         $this->withJsonHeaders();
         return $this;
     }
 
-    public function send($params = [])
+    /**
+     * @param $endPointPart
+     * @return void
+     */
+    private function setEndPoint($endPointPart): void
+    {
+        $this->endPoint = $endPointPart;
+    }
+
+    public function send($params = [], $queryParams = [])
     {
         $uri = $this->containerBag->get('ohm.base_url') . self::RELATIVE_URL;
-        if (array_key_exists('action_path', $params) && isset($params['action_path'])) {
-            $uri .= $params['action_path'];
+        if ($this->getEndPoint()) {
+            $uri .= $this->getEndPoint();
         }
         try {
             $startTime = microtime(true);
             $response = $this->httpClient->request(Request::METHOD_POST, $uri, [
                 'body' => json_encode(!empty($params) ? $params : null),
                 'headers' => $this->headers,
-                'allow_redirects' => false
+                'allow_redirects' => false,
+                'query' => $queryParams,
             ]);
             $endTime = microtime(true);
             $this->logTheCallDuration(get_class($this), $startTime, $endTime);
@@ -87,5 +133,56 @@ class OhmApiManager extends BaseHttpCalls
                 'body' => $exception->getMessage(),
             ];
         }
+    }
+
+    /**
+     * @return string
+     */
+    private function getEndPoint(): string
+    {
+        return $this->endPoint;
+    }
+
+    /**
+     * Function to handle the response
+     * @param $response
+     * @return void
+     */
+    private function handleResponse($response)
+    {
+        if ($response['code'] == Response::HTTP_OK) {
+            $this->response = $response['body'];
+        } else {
+            //an error happened so we put it in the log
+            $context = Constant::API;
+            $message = $response['body'];
+            $refContract = null;
+            $extra = "Error Code : " . $response['code'];
+            $referenceClient = null;
+            $this->logger->error($context, $message, $refContract, $extra, $referenceClient);
+            $this->response = false;
+        }
+    }
+
+    /**
+     * Sets the Token property
+     * @param $token
+     * @return string
+     */
+    private function setToken($token): string
+    {
+        $this->token = $token;
+
+        return $this->token;
+    }
+
+    /**
+     * Function to set the headers for api calls which needs authorisation bearer
+     * @return void
+     */
+    private function setAuthorisationHeaders()
+    {
+        $this->init();
+        $this->withBasicAuthorizationTokenHeaders($this->getToken());
     }
 }

@@ -28,10 +28,15 @@ use Symfony\Component\HttpFoundation\Response;
 class WebChannelController extends AbstractController
 {
     private $stepValidator;
+    /**
+     * @var OhmApiManager
+     */
+    private $ohmApiManager;
 
-    public function __construct(StepValidation $stepValidator)
+    public function __construct(StepValidation $stepValidator, OhmApiManager $ohmApiManager)
     {
         $this->stepValidator = $stepValidator;
+        $this->ohmApiManager = $ohmApiManager;
     }
 
 
@@ -264,17 +269,31 @@ class WebChannelController extends AbstractController
      * @Route("/token_test", name="token")
      * @return Response
      */
-    public function getToken(OhmApiManager $apiManager)
+    public function getToken()
     {
-
-
-        $token =  $apiManager->getToken();
+        $token =  $this->ohmApiManager->getToken();
         //get the estimation for the client given the pdl
 
+        return new Response('ok');
+    }
+    /**
+     * We make sure the reference exists and displays the compass
+     * @Route("/estimation_test", name="estimation")
+     * @return Response
+     */
+    public function testApiEstimation()
+    {
+        // for testing only
+        $pdl = '07360491983097';
+        $estimation =  $this->ohmApiManager->getEstimationbyPdl($pdl);
+        //get the estimation for the client given the pdl
+        dd($estimation);
         return new Response('ok');
 
 
     }
+
+
 
 
 
