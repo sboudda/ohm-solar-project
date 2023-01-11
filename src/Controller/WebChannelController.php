@@ -277,7 +277,7 @@ class WebChannelController extends AbstractController
         return new Response('ok');
     }
     /**
-     * We make sure the reference exists and displays the compass
+     * Get the estimation given a pdl
      * @Route("/estimation_test", name="estimation")
      * @return Response
      */
