@@ -18,6 +18,11 @@ class Address
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Prospect", inversedBy="addresses", cascade={"persist"})
+     */
+    private $prospect;
+
+    /**
      * @ORM\Column(type="integer", length=1, nullable=true)
      */
     private $favorite;
@@ -52,15 +57,24 @@ class Address
      */
     private $points = [];
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="address")
-     */
-    private $client;
 
     public function getId(): ?int
     {
         return $this->id;
     }
+
+    public function getProspect(): ?Prospect
+    {
+        return $this->prospect;
+    }
+
+    public function setProspect(?Prospect $prospect): self
+    {
+        $this->prospect = $prospect;
+
+        return $this;
+    }
+
 
     public function getRawAddress(): ?string
     {
@@ -122,24 +136,12 @@ class Address
         return $this;
     }
 
-    public function getClient(): ?Client
-    {
-        return $this->client;
-    }
-
-    public function setClient(?Client $client): self
-    {
-        $this->client = $client;
-
-        return $this;
-    }
-
     /**
      * @return mixed
      */
     public function getFavorite()
     {
-        return $this->avoritet;
+        return $this->favorite;
     }
 
     /**

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "491373ff5183feb6b20ee7041ab07d3d",
+    "content-hash": "73db7a12cf483fd39ba85814de006195",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -492,16 +492,16 @@
         },
         {
             "name": "doctrine/doctrine-bundle",
-            "version": "2.8.1",
+            "version": "2.8.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineBundle.git",
-                "reference": "fe9b2cc1cd0c9b76553b1d4c1a077590ba231a2d"
+                "reference": "251cd5aaea32bb92cdad4204840786b317dcdd4c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/fe9b2cc1cd0c9b76553b1d4c1a077590ba231a2d",
-                "reference": "fe9b2cc1cd0c9b76553b1d4c1a077590ba231a2d",
+                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/251cd5aaea32bb92cdad4204840786b317dcdd4c",
+                "reference": "251cd5aaea32bb92cdad4204840786b317dcdd4c",
                 "shasum": ""
             },
             "require": {
@@ -587,7 +587,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/DoctrineBundle/issues",
-                "source": "https://github.com/doctrine/DoctrineBundle/tree/2.8.1"
+                "source": "https://github.com/doctrine/DoctrineBundle/tree/2.8.2"
             },
             "funding": [
                 {
@@ -603,7 +603,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-01-06T00:24:26+00:00"
+            "time": "2023-01-06T11:42:10+00:00"
         },
         {
             "name": "doctrine/doctrine-migrations-bundle",
@@ -1380,6 +1380,97 @@
                 "source": "https://github.com/doctrine/sql-formatter/tree/1.1.3"
             },
             "time": "2022-05-23T21:33:49+00:00"
+        },
+        {
+            "name": "fresh/doctrine-enum-bundle",
+            "version": "v7.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fre5h/DoctrineEnumBundle.git",
+                "reference": "09f358dd2da2c82b1c56257fbd07d12051c2c728"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fre5h/DoctrineEnumBundle/zipball/09f358dd2da2c82b1c56257fbd07d12051c2c728",
+                "reference": "09f358dd2da2c82b1c56257fbd07d12051c2c728",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/common": "^3.2",
+                "doctrine/dbal": "^3.1",
+                "doctrine/doctrine-bundle": "^2.5",
+                "doctrine/orm": "^2.10",
+                "php": ">=7.4.0",
+                "symfony/config": "^5.4",
+                "symfony/dependency-injection": "^5.4",
+                "symfony/doctrine-bridge": "^5.4",
+                "symfony/framework-bundle": "^5.4",
+                "symfony/http-kernel": "^5.4",
+                "symfony/validator": "^5.4",
+                "twig/twig": "^3.3"
+            },
+            "require-dev": {
+                "escapestudios/symfony2-coding-standard": "^3.12",
+                "phpstan/phpstan": "^1.2",
+                "phpstan/phpstan-doctrine": "^1.0",
+                "phpstan/phpstan-phpunit": "^1.0",
+                "phpstan/phpstan-symfony": "^1.0",
+                "phpunit/phpunit": "^9.5",
+                "symfony/form": "^5.4",
+                "symfony/yaml": "^5.4"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "Fresh\\DoctrineEnumBundle\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Artem Henvald",
+                    "email": "genvaldartem@gmail.com",
+                    "role": "Creator"
+                },
+                {
+                    "name": "Community",
+                    "homepage": "https://github.com/fre5h/DoctrineEnumBundle/graphs/contributors",
+                    "role": "Contributors"
+                }
+            ],
+            "description": "Provides support of ENUM type for Doctrine2 in Symfony applications.",
+            "homepage": "https://github.com/fre5h/DoctrineEnumBundle",
+            "keywords": [
+                "bundle",
+                "dbal",
+                "doctrine",
+                "entity",
+                "enum",
+                "mssql",
+                "mysql",
+                "postgresql",
+                "sqlite",
+                "symfony",
+                "type"
+            ],
+            "support": {
+                "email": "genvaldartem@gmail.com",
+                "issues": "https://github.com/fre5h/DoctrineEnumBundle/issues",
+                "source": "https://github.com/fre5h/DoctrineEnumBundle/tree/v7.4.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/fre5h",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-11-29T19:27:53+00:00"
         },
         {
             "name": "friendsofphp/proxy-manager-lts",

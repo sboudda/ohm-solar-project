@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Address;
-use App\Entity\Client;
+use App\Entity\Contact;
 use App\Entity\Prospect;
 use App\Entity\Roof;
 use App\Form\data\StepFiveData;
@@ -70,7 +70,7 @@ class WebChannelController extends AbstractController
 
             $address = new Address();
             $address->setFavorite(1);
-            $client = new Client();
+            $client = new Contact();
             $roof = new Roof();
             $prospect->setReference($prospect::generateProspectReference());
             //set the session
@@ -116,7 +116,7 @@ class WebChannelController extends AbstractController
             $form->handleRequest($request);
             $data['form'] = $form->createView();
             $client = $prospect->getClient();
-            $ClientObj = $entityManager->getRepository(Client::class)->getFavoriteAddress($client);
+            $ClientObj = $entityManager->getRepository(Contact::class)->getFavoriteAddress($client);
             $address = $ClientObj->getAddress()->first();
 
             if ($form->isSubmitted() && $form->isValid()) {
@@ -170,7 +170,7 @@ class WebChannelController extends AbstractController
             }
 
             $client = $prospect->getClient();
-            $ClientObj = $entityManager->getRepository(Client::class)->getFavoriteAddress($client);
+            $ClientObj = $entityManager->getRepository(Contact::class)->getFavoriteAddress($client);
             $address = $ClientObj->getAddress()->first();
 
             $form = $this->createForm(StepThreeFormType::class, $step);
@@ -181,7 +181,7 @@ class WebChannelController extends AbstractController
 
                 // save the geocode and go to step 3
                 $client = $prospect->getClient();
-                $ClientObj = $entityManager->getRepository(Client::class)->getFavoriteAddress($client);
+                $ClientObj = $entityManager->getRepository(Contact::class)->getFavoriteAddress($client);
                 $address = $ClientObj->getAddress()->first();
                 $roof = $prospect->getRoof();
                 $roof->setArea($step->getArea());

@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\Contact;
+use App\Entity\Contract;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Contact>
+ * @extends ServiceEntityRepository<Contract>
  *
- * @method Contact|null find($id, $lockMode = null, $lockVersion = null)
- * @method Contact|null findOneBy(array $criteria, array $orderBy = null)
- * @method Contact[]    findAll()
- * @method Contact[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Contract|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Contract|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Contract[]    findAll()
+ * @method Contract[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ClientRepository extends ServiceEntityRepository
+class ContractRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Contact::class);
+        parent::__construct($registry, Contract::class);
     }
 
-    public function add(Contact $entity, bool $flush = false): void
+    public function add(Contract $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,20 +30,7 @@ class ClientRepository extends ServiceEntityRepository
         }
     }
 
-    public function getFavoriteAddress(Contact $client)
-    {
-        $qb =  $this->createQueryBuilder('a')
-            ->join('a.Address', 'r')
-            ->where('r.favorite = 1')
-            ->andWhere('a = :val')
-            ->setParameter('val', $client)
-            ->getQuery()
-            ->getOneOrNullResult();
-
-        return $qb;
-    }
-
-    public function remove(Contact $entity, bool $flush = false): void
+    public function remove(Contract $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -53,7 +40,7 @@ class ClientRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return Client[] Returns an array of Client objects
+//     * @return Contract[] Returns an array of Contract objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -67,7 +54,7 @@ class ClientRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Client
+//    public function findOneBySomeField($value): ?Contract
 //    {
 //        return $this->createQueryBuilder('c')
 //            ->andWhere('c.exampleField = :val')

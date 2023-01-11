@@ -2,7 +2,11 @@
 
 namespace App\Entity;
 
+use App\DBAL\Types\ContactStatusType;
+use App\DBAL\Types\ContactType;
 use App\Repository\ProspectRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,16 +40,51 @@ class Prospect
     private $status;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="Prospect")
+     * @ORM\OneToMany(targetEntity=Contact::class, mappedBy="prospect",  cascade={"persist"}, fetch="EXTRA_LAZY")
      */
-    private $client;
+    private $contacts;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Address::class, mappedBy="prospect",  cascade={"persist"}, fetch="EXTRA_LAZY")
+     */
+    private $addresses;
 
     /**
      * @ORM\OneToOne(targetEntity=Roof::class, mappedBy="prospect", cascade={"persist", "remove"})
      */
     private $roof;
 
+    /**
+     * @ORM\Column(type="string", length=50)
+     */
+    private $currentStep;
 
+    /**
+     * @ORM\Column(type="boolean", options={"default" : false})
+     */
+    private $callMeLater = false;
+
+
+    /**
+     * @ORM\OneToMany(
+     *     targetEntity="App\Entity\Contract",
+     *     mappedBy="prospect",
+     *     orphanRemoval=true,
+     *     cascade={"persist", "remove"},
+     *     fetch="EXTRA_LAZY")
+     */
+    private $contracts;
+
+
+
+    public function __construct()
+    {
+        $this->contracts = new ArrayCollection();
+        $this->contacts = new ArrayCollection();
+        $this->addresses = new ArrayCollection();
+       /* $this->communicatedHistory = new ArrayCollection();
+        $this->attachedDocuments = new ArrayCollection();*/
+    }
     public function getId(): ?int
     {
         return $this->id;
@@ -77,6 +116,7 @@ class Prospect
         return $this;
     }
 
+
     /**
      * @ORM\PrePersist
      */
@@ -96,10 +136,7 @@ class Prospect
     }
 
 
-    public function getClient(): ?Client
-    {
-        return $this->client;
-    }
+
 
     /**
      * @return mixed
@@ -119,11 +156,115 @@ class Prospect
         return $this;
     }
 
-    public function setClient(?Client $client): self
+    /**
+     * @return Collection|Address[]
+     */
+    public function getAddresses(): Collection
     {
-        $this->client = $client;
+        return $this->addresses;
+    }
+
+    public function addAddress(Address $address): self
+    {
+        if (!$this->addresses->contains($address)) {
+            $this->addresses[] = $address;
+            $address->setProspect($this);
+        }
 
         return $this;
+    }
+
+    public function removeAddress(Address $address): self
+    {
+        if ($this->addresses->contains($address)) {
+            $this->addresses->removeElement($address);
+            // set the owning side to null (unless already changed)
+            if ($address->getProspect() === $this) {
+                $address->setProspect(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Contact[]
+     */
+    public function getContacts(): Collection
+    {
+        return $this->contacts;
+    }
+
+    public function addContact(Contact $contact): self
+    {
+        if (!$this->contacts->contains($contact)) {
+            $this->contacts[] = $contact;
+            $contact->setProspect($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContact(Contact $contact): self
+    {
+        if ($this->contacts->contains($contact)) {
+            $this->contacts->removeElement($contact);
+            // set the owning side to null (unless already changed)
+            if ($contact->getProspect() === $this) {
+                $contact->setProspect(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+
+    /**
+     * @return Contact|null
+     */
+    public function getPrincipalContact(): ?Contact
+    {
+        foreach ($this->getContacts() as $contact) {
+            if ($contact->getType() === ContactType::PRINCIPAL && $contact->getStatus() === ContactStatusType::CONTACT_IS_ACTIVE) {
+                return $contact;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * For easy admin
+     * @return string|null
+     */
+    public function getPrincipalContactMail(): ?string
+    {
+        $principalContact = $this->getPrincipalContact();
+
+        return $principalContact ? $principalContact->getMail() : null;
+    }
+
+    /**
+     * For easy admin
+     * @return string|null
+     */
+    public function getPrincipalContactFirstName(): ?string
+    {
+        $principalContact = $this->getPrincipalContact();
+
+        return $principalContact ? $principalContact->getFirstName() : null;
+    }
+
+    /**
+     * For easy admin
+     * @return string|null
+     */
+    public function getPrincipalContactLastName(): ?string
+    {
+        $principalContact = $this->getPrincipalContact();
+
+        return $principalContact ? $principalContact->getLastName() : null;
     }
 
     public function getRoof(): ?Roof
@@ -147,5 +288,29 @@ class Prospect
 
         return $this;
     }
+
+    public function addContractDraft(Contract $contract): self
+    {
+        if (!$this->contracts->contains($contract)) {
+            $this->contracts[] = $contract;
+            $contract->setProspect($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContractDraft(Contract $contract): self
+    {
+        if ($this->contracts->contains($contract)) {
+            $this->contracts->removeElement($contract);
+            // set the owning side to null (unless already changed)
+            if ($contract->getProspect() === $this) {
+                $contract->setProspect(null);
+            }
+        }
+
+        return $this;
+    }
+
 
 }
